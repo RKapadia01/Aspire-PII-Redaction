@@ -5,7 +5,6 @@ using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 
-Environment.SetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4317");
 var builder = Host.CreateApplicationBuilder(args);
 
 builder.Logging.ClearProviders();
