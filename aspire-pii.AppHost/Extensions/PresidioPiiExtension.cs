@@ -31,7 +31,7 @@ public static class PresidioPiiExtension
     
     /// <summary>
     /// Replaces localhost references with container-friendly host names.
-    /// Adapted from [Original Repository Name] (https://github.com/practical-otel/opentelemetry-aspire-collector)
+    /// Adapted from [opentelemetry-aspire-collector] (https://github.com/practical-otel/opentelemetry-aspire-collector)
     /// under Apache 2.0 license.
     /// </summary>
     private static string ReplaceLocalhostWithContainerHost(string value, IConfiguration configuration)
