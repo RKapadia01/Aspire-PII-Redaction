@@ -8,12 +8,16 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsAspireHost>true</IsAspireHost>
-        <UserSecretsId>a6ffd916-f567-4cd5-a1c3-8614949e477a</UserSecretsId>
+        <UserSecretsId>33292861-15e7-4838-9076-3960dd205fe7</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\aspire-pii.ApiService\aspire-pii.ApiService.csproj"/>
+        <ProjectReference Include="..\aspire-pii.Web\aspire-pii.Web.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Aspire.Hosting.AppHost" Version="9.1.0"/>
-        <ProjectReference Include="..\SampleService\SampleService.csproj"/>
     </ItemGroup>
 
 </Project>

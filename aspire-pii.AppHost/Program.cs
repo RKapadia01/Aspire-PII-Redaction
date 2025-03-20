@@ -1,8 +1,10 @@
-using Projects;
-
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<SampleService>("sampleService")
-    .WithEnvironment("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4317");
+var apiService = builder.AddProject<Projects.aspire_pii_ApiService>("apiservice");
+
+builder.AddProject<Projects.aspire_pii_Web>("webfrontend")
+    .WithExternalHttpEndpoints()
+    .WithReference(apiService)
+    .WaitFor(apiService);
 
 builder.Build().Run();
