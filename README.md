@@ -57,6 +57,8 @@ service:
       exporters: [otlp/aspire]
 ```
 
+*A full schema for the config file can be found here: [schema.yaml](https://github.com/RKapadia01/PresidioRedactionProcessor/blob/main/schema.yaml)*
+
 ## Running the Sample:
 - Run the AppHost Project from your Terminal:
     ```C#
