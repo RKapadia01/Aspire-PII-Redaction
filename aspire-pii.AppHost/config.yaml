@@ -1,0 +1,43 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  presidio_redaction:
+    mode: "embedded"
+    error_mode: "propagate"
+    analyzer:
+      language: "en"
+      score_threshold: 0.5
+    anonymizer:
+      anonymizers:
+        - entity: "DEFAULT"
+          type: "REPLACE"
+          new_value: "REDACTED"
+
+exporters:
+  debug:
+    verbosity: basic
+  otlp/aspire:
+    endpoint: "host.docker.internal:19011"
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [presidio_redaction]
+      exporters: [otlp/aspire]
+    logs:
+      receivers: [otlp]
+      processors: [presidio_redaction]
+      exporters: [otlp/aspire, debug]
+    metrics:
+      receivers: [otlp]
+      processors: []
+      exporters: [otlp/aspire]
