@@ -1,18 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "https": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "applicationUrl": "https://localhost:17284;http://localhost:15240",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "DOTNET_ENVIRONMENT": "Development",
-        "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21241",
-        "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22023"
-      }
-    },
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
@@ -23,7 +11,20 @@
         "DOTNET_ENVIRONMENT": "Development",
         "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19011",
         "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "http://localhost:20053",
-        "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": true
+        "DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS": true,
+        "ASPIRE_ALLOW_UNSECURED_TRANSPORT": true
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:17284;http://localhost:15240",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ENVIRONMENT": "Development",
+        "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21241",
+        "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22023"
       }
     }
   }

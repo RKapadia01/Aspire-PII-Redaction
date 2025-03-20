@@ -1,4 +1,5 @@
 using Aspire.Hosting.Lifecycle;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -6,19 +7,40 @@ namespace aspire_pii.AppHost.Extensions;
 
 public static class PresidioPiiExtension
 {
+    private const string DashboardOtlpUrlVariableName = "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL";
+    private const string DashboardOtlpUrlDefaultValue = "http://localhost:18889";
+    
     public static IResourceBuilder<ContainerResource> AddPresidioCollector(
         this IDistributedApplicationBuilder builder,
         string configPath = "./config.yaml")
     {
+        var url = builder.Configuration[DashboardOtlpUrlVariableName] ?? DashboardOtlpUrlDefaultValue;
+        var dashboardOtlpEndpoint = ReplaceLocalhostWithContainerHost(url, builder.Configuration);
+        
         var collector = builder
             .AddContainer("presidio-otel-collector", "rohankapadia/presidioredactioncollector:withpresidio")
             .WithEndpoint(port: 4317, targetPort: 4317, name: "otlp-grpc")
             .WithEndpoint(port: 4318, targetPort: 4318, name: "otlp-http")
-            .WithBindMount(configPath, "/app/config.yaml");
+            .WithBindMount(configPath, "/app/config.yaml")
+            .WithEnvironment("ASPIRE_OTLP_ENDPOINT", dashboardOtlpEndpoint);
 
         builder.Services.TryAddLifecycleHook<PresidioEnvironmentHook>();
 
         return collector;
+    }
+    
+    /// <summary>
+    /// Replaces localhost references with container-friendly host names.
+    /// Adapted from [Original Repository Name] (https://github.com/practical-otel/opentelemetry-aspire-collector)
+    /// under Apache 2.0 license.
+    /// </summary>
+    private static string ReplaceLocalhostWithContainerHost(string value, IConfiguration configuration)
+    {
+        var hostName = configuration["AppHost:ContainerHostname"] ?? "host.docker.internal";
+
+        return value.Replace("localhost", hostName, StringComparison.OrdinalIgnoreCase)
+            .Replace("127.0.0.1", hostName)
+            .Replace("[::1]", hostName);
     }
 }
 

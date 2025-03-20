@@ -20,10 +20,8 @@ processors:
           new_value: "REDACTED"
 
 exporters:
-  debug:
-    verbosity: basic
   otlp/aspire:
-    endpoint: "host.docker.internal:19011"
+    endpoint: ${ASPIRE_OTLP_ENDPOINT}
     tls:
       insecure: true
 
@@ -36,7 +34,7 @@ service:
     logs:
       receivers: [otlp]
       processors: [presidio_redaction]
-      exporters: [otlp/aspire, debug]
+      exporters: [otlp/aspire]
     metrics:
       receivers: [otlp]
       processors: []
